@@ -1,14 +1,15 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
-from .models import Task
+from .models import Task, MyUser
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-      class Meta:
-        model = User
-        fields = ['id', 'first_name', 'last_name', 'username', 'email']
+class MyUserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = MyUser
+        fields = ['id', 'email', 'first_name', 'last_name']
 
 class TaskSerializer(serializers.HyperlinkedModelSerializer):
-    user = UserSerializer()
+    user = MyUserSerializer()
 
     class Meta:
         model = Task
