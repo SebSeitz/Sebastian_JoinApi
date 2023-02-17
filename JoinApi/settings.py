@@ -134,5 +134,4 @@ MEDIA_ROOT = '/home/SebastianSeitz36/JoinApi/media'
 MEDIA_URL = '/media/'
 STATIC_ROOT = '/home/SebastianSeitz36/JoinApi/static'
 STATIC_URL = '/static/'
-
 AUTH_USER_MODEL = 'Kanban.MyUser'
