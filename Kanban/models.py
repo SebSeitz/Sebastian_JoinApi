@@ -15,9 +15,16 @@ class Task(models.Model):
   ('MK','MARKETING'),
   ('PR','PRODUCT'),
 ]
+  URGENCY_CHOICES = [
+  ('H','HIGH'),
+  ('M', 'MEDIUM'),
+  ('L','LOW'),
+
+]
   title = models.CharField(max_length=30)
   description = models.CharField(max_length=30)
   due_date = models.DateField(default=datetime.date.today)
+  urgency = models.CharField(max_length=2, choices=URGENCY_CHOICES, default='H')
   category = models.CharField(max_length=2, choices=CATEGORY_CHOICES, default='MT')
   user = models.ForeignKey(
         settings.AUTH_USER_MODEL,

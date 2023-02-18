@@ -31,7 +31,7 @@ class UserViewSet(viewsets.ModelViewSet):
                                   user= request.user
                                 )
 
-        user = User.objects.create(first_name = request.get('first_name', ''))
+        user = MyUser.objects.create(first_name = request.get('first_name', ''))
         serialized_obj = serializers.serialize('json', [task, user ])
         return HttpResponse(serialized_obj, content_type='application/json')
 
