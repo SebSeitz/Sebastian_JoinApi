@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework import permissions
-from .serializers import TaskSerializer
-from .models import Task, User
+from .serializers import TaskSerializer, MyUserSerializer
+from .models import Task, MyUser
 from django.core import serializers
 from django.http import HttpResponse
 
@@ -12,6 +12,14 @@ class TaskViewSet(viewsets.ModelViewSet):
     """
     queryset = Task.objects.all().order_by('due_date')
     serializer_class = TaskSerializer
+    permission_classes = []
+
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = MyUser.objects.all()
+    serializer_class = MyUserSerializer
     permission_classes = []
 
 
