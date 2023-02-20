@@ -6,14 +6,14 @@ class MyUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MyUser
-        fields = ['id', 'email', 'first_name', 'last_name']
+        fields = ['email', 'first_name', 'last_name']
 
 class TaskSerializer(serializers.HyperlinkedModelSerializer):
     user = MyUserSerializer()
 
     class Meta:
         model = Task
-        fields = ['id', 'title', 'description', 'due_date', 'category', 'user']
+        fields = ['id', 'title', 'description', 'due_date', 'urgency', 'category', 'user']
 
     # def create(self, validated_data):
     #   user = validated_data.pop('user')
