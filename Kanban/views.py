@@ -16,10 +16,7 @@ class TaskViewSet(viewsets.ModelViewSet):
     permission_classes = []
 
     def create(self, request):
-        user, created = MyUser.objects.get_or_create(
-            first_name=request.data.get('first_name', ''),
-            email=request.data.get('email', '')
-        )
+        users = request.data.get('users', [])
         due_date_str = request.data.get('due_date', '')
         due_date = datetime.strptime(due_date_str, '%Y-%m-%d').date() if due_date_str else None
         task = Task.objects.create(
@@ -27,9 +24,9 @@ class TaskViewSet(viewsets.ModelViewSet):
             description=request.data.get('description', ''),
             due_date=due_date,
             category=request.data.get('category', ''),
-            user=user
         )
-        serialized_obj = serializers.serialize('json', [task, user])
+        task.user.set(users) # Many-to-Many-Feld setzen
+        serialized_obj = serializers.serialize('json', [task,])
         return HttpResponse(serialized_obj, content_type='application/json')
 
 

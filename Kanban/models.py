@@ -1,7 +1,7 @@
 from django.db import models
 import datetime
 from django.conf import settings
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, User, PermissionsMixin
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.utils.translation import gettext_lazy as _
 
 
@@ -25,9 +25,8 @@ class Task(models.Model):
   due_date = models.DateField(default=datetime.date.today)
   urgency = models.CharField(max_length=2, choices=URGENCY_CHOICES, default='H')
   category = models.CharField(max_length=2, choices=CATEGORY_CHOICES, default='MT')
-  user = models.ForeignKey(
+  user = models.ManyToManyField(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
     )
 
 class MyUserManager(BaseUserManager):
@@ -58,6 +57,7 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name']
+
 
     objects = MyUserManager()
 
