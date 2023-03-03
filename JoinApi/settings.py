@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Kanban',
-    'rest_framework'
+    'rest_framework',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -53,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'JoinApi.urls'
@@ -135,3 +137,8 @@ MEDIA_URL = '/media/'
 STATIC_ROOT = '/home/SebastianSeitz36/JoinApi/static'
 STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'Kanban.MyUser'
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_METHODS = ['PUT', 'UPDATE', 'GET', 'POST']
+CORS_ORIGIN_WHITELIST = [
+    'http://127.0.0.1:8000'
+]
