@@ -137,8 +137,11 @@ MEDIA_URL = '/media/'
 STATIC_ROOT = '/home/SebastianSeitz36/JoinApi/static'
 STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'Kanban.MyUser'
-CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_METHODS = ['PUT', 'UPDATE', 'GET', 'POST']
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_METHODS = ['PUT', 'UPDATE', 'GET', 'POST', 'OPTIONS']
 CORS_ORIGIN_WHITELIST = [
-    'http://127.0.0.1:8000'
+    'http://127.0.0.1:5505',
 ]
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_HEADERS = ['accept', 'accept-encoding', 'authorization', 'content-type', 'dnt', 'origin', 'user-agent', 'x-csrftoken', 'x-requested-with']
+CORS_ALLOW_REDIRECTS = True

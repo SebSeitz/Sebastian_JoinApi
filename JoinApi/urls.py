@@ -3,6 +3,8 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from Kanban.views import TaskViewSet, UserViewSet
+from django.views.decorators.csrf import csrf_exempt
+
 
 router = routers.DefaultRouter()
 router.register(r'tasks', TaskViewSet)
