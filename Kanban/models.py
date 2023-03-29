@@ -21,7 +21,7 @@ class Task(models.Model):
 
 ]
   title = models.CharField(max_length=30)
-  description = models.CharField(max_length=30)
+  description = models.CharField(max_length=100)
   due_date = models.DateField(default=datetime.date.today)
   urgency = models.CharField(max_length=2, choices=URGENCY_CHOICES, default='H')
   category = models.CharField(max_length=2, choices=CATEGORY_CHOICES, default='MT')

@@ -47,6 +47,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -54,7 +55,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'JoinApi.urls'
@@ -138,10 +138,3 @@ STATIC_ROOT = '/home/SebastianSeitz36/JoinApi/static'
 STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'Kanban.MyUser'
 CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOW_METHODS = ['PUT', 'UPDATE', 'GET', 'POST', 'OPTIONS']
-CORS_ORIGIN_WHITELIST = [
-    'http://127.0.0.1:5505',
-]
-CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_HEADERS = ['accept', 'accept-encoding', 'authorization', 'content-type', 'dnt', 'origin', 'user-agent', 'x-csrftoken', 'x-requested-with']
-CORS_ALLOW_REDIRECTS = True
