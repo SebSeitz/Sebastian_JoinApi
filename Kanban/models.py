@@ -51,6 +51,7 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(('email address'), unique=True)
     first_name = models.CharField(('first name'), max_length=30, blank=True)
     last_name = models.CharField(('last name'), max_length=30, blank=True)
+    password = models.CharField(('password'), max_length=40, blank=True)
     is_active = models.BooleanField(('active'), default=True)
     is_staff = models.BooleanField(('staff status'), default=False)
     is_superuser = models.BooleanField(('superuser status'), default=False)

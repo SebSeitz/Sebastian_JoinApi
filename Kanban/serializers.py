@@ -6,7 +6,7 @@ class MyUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MyUser
-        fields = ['id', 'email', 'first_name', 'last_name']
+        fields = ['id', 'email', 'first_name', 'last_name', 'password']
 
 class TaskSerializer(serializers.HyperlinkedModelSerializer):
     # user = MyUserSerializer()
