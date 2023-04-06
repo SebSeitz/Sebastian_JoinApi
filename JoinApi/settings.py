@@ -42,14 +42,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Kanban',
-    'rest_framework'
+    'rest_framework',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -134,5 +136,6 @@ MEDIA_ROOT = '/home/SebastianSeitz36/JoinApi/media'
 MEDIA_URL = '/media/'
 STATIC_ROOT = '/home/SebastianSeitz36/JoinApi/static'
 STATIC_URL = '/static/'
-
 AUTH_USER_MODEL = 'Kanban.MyUser'
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_METHODS = ['DELETE']

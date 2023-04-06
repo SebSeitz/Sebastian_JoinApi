@@ -1,9 +1,8 @@
 from django.db import models
 import datetime
 from django.conf import settings
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, User, PermissionsMixin
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.utils.translation import gettext_lazy as _
-
 
 
 
@@ -15,13 +14,20 @@ class Task(models.Model):
   ('MK','MARKETING'),
   ('PR','PRODUCT'),
 ]
+  URGENCY_CHOICES = [
+  ('H','HIGH'),
+  ('M', 'MEDIUM'),
+  ('L','LOW'),
+
+]
   title = models.CharField(max_length=30)
-  description = models.CharField(max_length=30)
+  description = models.CharField(max_length=100)
   due_date = models.DateField(default=datetime.date.today)
+  urgency = models.CharField(max_length=2, choices=URGENCY_CHOICES, default='H')
   category = models.CharField(max_length=2, choices=CATEGORY_CHOICES, default='MT')
-  user = models.ForeignKey(
+  status = models.CharField(max_length=15, default='todo')
+  user = models.ManyToManyField(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
     )
 
 class MyUserManager(BaseUserManager):
@@ -45,6 +51,7 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(('email address'), unique=True)
     first_name = models.CharField(('first name'), max_length=30, blank=True)
     last_name = models.CharField(('last name'), max_length=30, blank=True)
+    password = models.CharField(('password'), max_length=40, blank=True)
     is_active = models.BooleanField(('active'), default=True)
     is_staff = models.BooleanField(('staff status'), default=False)
     is_superuser = models.BooleanField(('superuser status'), default=False)
@@ -52,6 +59,7 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name']
+
 
     objects = MyUserManager()
 
