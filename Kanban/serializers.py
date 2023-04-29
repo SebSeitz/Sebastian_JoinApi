@@ -11,14 +11,15 @@ class MyUserSerializer(serializers.ModelSerializer):
 class TaskSerializer(serializers.HyperlinkedModelSerializer):
     # user = MyUserSerializer()
     user = serializers.PrimaryKeyRelatedField(many=True, queryset=MyUser.objects.all())
+    subtask = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
 
     class Meta:
         model = Task
-        fields = ['id', 'title', 'description', 'due_date', 'urgency', 'category', 'status', 'user']
+        fields = ['id', 'title', 'description', 'due_date', 'urgency', 'category', 'status', 'user', 'subtask']
 
 class SubtaskSerializer(serializers.ModelSerializer):
      task = serializers.PrimaryKeyRelatedField(queryset=Task.objects.all())
-     
+
      class Meta:
         model = Subtask
         fields = ['title', 'description', 'completion_status', 'task']
