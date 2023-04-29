@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
-from .models import Task, MyUser
+from .models import Task, MyUser, Subtask
 
 class MyUserSerializer(serializers.ModelSerializer):
 
@@ -15,5 +15,12 @@ class TaskSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Task
         fields = ['id', 'title', 'description', 'due_date', 'urgency', 'category', 'status', 'user']
+
+class SubtaskSerializer(serializers.ModelSerializer):
+     task = serializers.PrimaryKeyRelatedField(queryset=Task.objects.all())
+     
+     class Meta:
+        model = Subtask
+        fields = ['title', 'description', 'completion_status', 'task']
 
 
