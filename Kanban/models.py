@@ -7,7 +7,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Subtask(models.Model):
-    task = models.ForeignKey('Task', on_delete=models.CASCADE, related_name='subtask')
+    task = models.ForeignKey('Task', on_delete=models.CASCADE, related_name="subtasks_set")
     title = models.CharField(max_length=30)
     completion_status = models.BooleanField(default=True)
 
@@ -35,7 +35,8 @@ class Task(models.Model):
   user = models.ManyToManyField(
         settings.AUTH_USER_MODEL,
     )
-  # subtask = models.ForeignKey(Subtask, on_delete=models.CASCADE, default=None)
+  subtasks = models.ManyToManyField(Subtask, related_name="tasks")
+
 
 
 
