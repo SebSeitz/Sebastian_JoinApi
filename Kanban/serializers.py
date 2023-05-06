@@ -22,6 +22,6 @@ class SubtaskSerializer(serializers.ModelSerializer):
 
      class Meta:
         model = Subtask
-        fields = ['title', 'description', 'completion_status', 'task']
+        fields = ['id', 'title', 'completion_status', 'task']
 
 

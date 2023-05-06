@@ -47,7 +47,6 @@ class SubtaskViewSet(viewsets.ModelViewSet):
         completion_status = request.data.get('completion_status', '').lower() == 'true'
         subtask = Subtask.objects.create(
             title=request.data.get('title', ''),
-            description=request.data.get('description', ''),
             completion_status=completion_status,
              task=task,  # Set the associated task for the subtask
         )
