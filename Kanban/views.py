@@ -19,6 +19,7 @@ class TaskViewSet(viewsets.ModelViewSet):
 
     def create(self, request):
         users = request.data.get('users', [])
+        subtask = request.data.get('subtask', [])
         due_date_str = request.data.get('due_date', '')
         due_date = datetime.strptime(due_date_str, '%Y-%m-%d').date() if due_date_str else None
 
@@ -30,6 +31,7 @@ class TaskViewSet(viewsets.ModelViewSet):
             status=request.data.get('status', ''),
         )
         task.user.set(users) # Many-to-Many-Feld setzen
+        task.subtasks.set(subtask)
         serialized_obj = serializers.serialize('json', [task,])
         return HttpResponse(serialized_obj, content_type='application/json')
 
@@ -50,6 +52,9 @@ class SubtaskViewSet(viewsets.ModelViewSet):
             completion_status=completion_status,
              task=task,  # Set the associated task for the subtask
         )
+
+        task.subtasks.add(subtask)
+        task.save()
         serializer = SubtaskSerializer(subtask)
         return HttpResponse(serializer.data, content_type='application/json')
 
