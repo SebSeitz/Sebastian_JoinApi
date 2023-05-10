@@ -16,9 +16,14 @@ class SubtaskSerializer(serializers.ModelSerializer):
         model = Subtask
         fields = ['id', 'title', 'completion_status', 'task']
 
+class SubtaskIdSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Subtask
+        fields = ['id']
+
 class TaskSerializer(serializers.HyperlinkedModelSerializer):
     user = serializers.PrimaryKeyRelatedField(many=True, queryset=MyUser.objects.all())
-    subtasks = SubtaskSerializer(many=True, read_only=True)
+    subtasks = serializers.SlugRelatedField(many=True, read_only=True, slug_field='id')
 
     class Meta:
         model = Task
