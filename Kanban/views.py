@@ -46,7 +46,7 @@ class SubtaskViewSet(viewsets.ModelViewSet):
     def create(self, request):
         task_id = request.data.get('task', '')  # Extract the task ID from the request data
         task = get_object_or_404(Task, id=task_id)  # Retrieve the associated task instance
-        completion_status = request.data.get('completion_status', '').lower() == 'true'
+        completion_status = str(request.data.get('completion_status', '')).lower() == 'true'
         subtask = Subtask.objects.create(
             title=request.data.get('title', ''),
             completion_status=completion_status,
