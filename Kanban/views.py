@@ -67,6 +67,9 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = MyUserSerializer
     permission_classes = []
 
+# class ContactsViewSet(viewsets.ModelViewSet):
+
+
 
 
 

@@ -5,6 +5,11 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 from django.utils.translation import gettext_lazy as _
 
 
+class Contacts(models.Model):
+    user = models.ForeignKey('MyUser', on_delete=models.CASCADE)
+    email = models.EmailField(('email address'), unique=True)
+    first_name = models.CharField(('first name'), max_length=30, blank=True)
+    last_name = models.CharField(('last name'), max_length=30, blank=True)
 
 class Subtask(models.Model):
     task = models.ForeignKey('Task', on_delete=models.CASCADE, related_name="subtasks_set")
@@ -35,13 +40,10 @@ class Task(models.Model):
   user = models.ManyToManyField(
         settings.AUTH_USER_MODEL,
     )
-  subtasks = models.ManyToManyField(Subtask, related_name="tasks")
-
-
+  subtasks = models.ManyToManyField(Subtask, related_name="tasks", blank=True)
 
 
 class MyUserManager(BaseUserManager):
-
     def create_user(self, email, password=None, **extra_fields):
         if not email:
             raise ValueError(_('The Email field must be set'))
@@ -57,11 +59,11 @@ class MyUserManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
 
 class MyUser(AbstractBaseUser, PermissionsMixin):
-
     email = models.EmailField(('email address'), unique=True)
     first_name = models.CharField(('first name'), max_length=30, blank=True)
     last_name = models.CharField(('last name'), max_length=30, blank=True)
     password = models.CharField(('password'), max_length=40, blank=True)
+    myContacts = models.ManyToManyField(Contacts, related_name='contacts', blank=True)
     is_active = models.BooleanField(('active'), default=True)
     is_staff = models.BooleanField(('staff status'), default=False)
     is_superuser = models.BooleanField(('superuser status'), default=False)

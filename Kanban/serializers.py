@@ -1,13 +1,18 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
-from .models import Task, MyUser, Subtask
+from .models import Task, MyUser, Subtask, Contacts
+
+
+class ContactSerialzier(serializers.ModelSerializer):
+    class Meta:
+        model = Contacts
+        fields = ['email', 'first_name', 'last_name', 'user']
 
 class MyUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = MyUser
-        fields = ['id', 'email', 'first_name', 'last_name', 'password']
-
+        fields = ['id', 'email', 'first_name', 'last_name', 'password', 'myContacts']
 
 class SubtaskSerializer(serializers.ModelSerializer):
      task = serializers.PrimaryKeyRelatedField(queryset=Task.objects.all())
