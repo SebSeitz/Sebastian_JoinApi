@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from rest_framework import viewsets
 from rest_framework import permissions
-from .serializers import TaskSerializer, MyUserSerializer, SubtaskSerializer
-from .models import Task, MyUser, Subtask
+from .serializers import TaskSerializer, MyUserSerializer, SubtaskSerializer, ContactSerialzier
+from .models import Task, MyUser, Subtask, Contacts
 from django.core import serializers
 from django.http import HttpResponse
 from datetime import datetime
@@ -50,7 +50,7 @@ class SubtaskViewSet(viewsets.ModelViewSet):
         subtask = Subtask.objects.create(
             title=request.data.get('title', ''),
             completion_status=completion_status,
-             task=task,  # Set the associated task for the subtask
+            task=task,  # Set the associated task for the subtask
         )
 
         task.subtasks.add(subtask)
@@ -67,7 +67,10 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = MyUserSerializer
     permission_classes = []
 
-# class ContactsViewSet(viewsets.ModelViewSet):
+class ContactsViewSet(viewsets.ModelViewSet):
+    queryset = Contacts.objects.all().order_by('user')
+    serializer_class = ContactSerialzier
+    permission_classes = []
 
 
 
