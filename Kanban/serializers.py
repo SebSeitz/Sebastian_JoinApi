@@ -6,7 +6,7 @@ from .models import Task, MyUser, Subtask, Contacts
 class ContactSerialzier(serializers.ModelSerializer):
     class Meta:
         model = Contacts
-        fields = ['email', 'first_name', 'last_name', 'user']
+        fields = ['id', 'email', 'first_name', 'last_name', 'user']
 
 class MyUserSerializer(serializers.ModelSerializer):
 

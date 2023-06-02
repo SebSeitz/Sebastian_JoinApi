@@ -73,6 +73,23 @@ class ContactsViewSet(viewsets.ModelViewSet):
     permission_classes = []
 
 
+    def create(self, request):
+
+        user_id = request.data.get('user')
+        user = get_object_or_404(MyUser, id=user_id)
+        contact = Contacts.objects.create(
+            email=request.data.get('email', ''),
+            first_name=request.data.get('first_name', ''),
+            last_name=request.data.get('last_name', ''),
+            user = user
+        )
+        contact.save()
+        serializer = ContactSerialzier(contact)
+        return HttpResponse(serializer.data, content_type='application/json')
+
+
+
+
 
 
 
