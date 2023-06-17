@@ -79,12 +79,13 @@ class ContactsViewSet(viewsets.ModelViewSet):
         user_id = request.data.get('user')
         user = get_object_or_404(MyUser, id=user_id)
         contact = Contacts.objects.create(
+            user = user,
             email=request.data.get('email', ''),
             first_name=request.data.get('first_name', ''),
             last_name=request.data.get('last_name', ''),
-            user = user
+
         )
-        user.myContacts = contact  # Assign the contact to the user's myContacts fiel
+        user.myContacts.add(contact)  # Assign the contact to the user's myContacts fiel
         user.save()
         serializer = ContactSerialzier(contact)
         return HttpResponse(serializer.data, content_type='application/json')
