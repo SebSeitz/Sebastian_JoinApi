@@ -2,7 +2,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-from Kanban.views import TaskViewSet, UserViewSet, SubtaskViewSet, ContactsViewSet
+from Kanban.views import TaskViewSet, UserViewSet, SubtaskViewSet, ContactsViewSet, LoginView, register
 # from django.views.decorators.csrf import csrf_exempt
 
 
@@ -15,4 +15,6 @@ router.register(r'contacts', ContactsViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('admin/', admin.site.urls),
+    path('login/', LoginView.as_view()),
+    path('register/', register, name='register'),
 ]

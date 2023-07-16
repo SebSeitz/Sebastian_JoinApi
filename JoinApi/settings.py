@@ -28,7 +28,8 @@ DEBUG = True
 ALLOWED_HOSTS = [
     'SebastianSeitz36.pythonanywhere.com',
     'localhost',
-    '127.0.0.1'
+    '127.0.0.1',
+    '127.0.0.1:5505',
 ]
 
 
@@ -43,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Kanban',
     'rest_framework',
+    'rest_framework.authtoken',
     'corsheaders',
 ]
 
@@ -139,3 +141,11 @@ STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'Kanban.MyUser'
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_METHODS = ['DELETE']
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ]
+}

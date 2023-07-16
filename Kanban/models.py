@@ -3,6 +3,9 @@ import datetime
 from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.utils.translation import gettext_lazy as _
+from rest_framework.authtoken.models import Token
+from django.db.models.signals import post_save
+
 
 
 class Contacts(models.Model):
@@ -56,14 +59,14 @@ class MyUserManager(BaseUserManager):
     def create_superuser(self, email, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
-        return self.create_user(email, password, **extra_fields)
+
+
 
 class MyUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(('email address'), unique=True)
     first_name = models.CharField(('first name'), max_length=30, blank=True)
     last_name = models.CharField(('last name'), max_length=30, blank=True)
     password = models.CharField(('password'), max_length=40, blank=True)
-    # myContacts = models.ForeignKey(Contacts, related_name='contacts', blank=True, null=True, on_delete=models.SET_NULL)
     myContacts = models.ManyToManyField(Contacts, related_name='users', blank=True)
     is_active = models.BooleanField(('active'), default=True)
     is_staff = models.BooleanField(('staff status'), default=False)
@@ -73,11 +76,16 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name']
 
-
     objects = MyUserManager()
+
 
     def has_module_perms(self, app_label):
         """
         Does the user have permissions to view the app `app_label`?
         """
         return True
+
+
+
+
+

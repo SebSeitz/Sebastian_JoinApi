@@ -1,11 +1,19 @@
 from django.shortcuts import render, get_object_or_404
 from rest_framework import viewsets
 from rest_framework import permissions
+from rest_framework.authtoken.models import Token
+from rest_framework.response import Response
+from rest_framework.authtoken.views import ObtainAuthToken
 from .serializers import TaskSerializer, MyUserSerializer, SubtaskSerializer, ContactSerialzier
 from .models import Task, MyUser, Subtask, Contacts
-from django.core import serializers
+from django.core import serializers as core_serializers
 from django.http import HttpResponse
 from datetime import datetime
+from .serializers import MyUserSerializer
+from rest_framework import status, serializers
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from django.contrib.auth.hashers import make_password
 
 
 class TaskViewSet(viewsets.ModelViewSet):
@@ -32,7 +40,7 @@ class TaskViewSet(viewsets.ModelViewSet):
         )
         task.user.set(users) # Many-to-Many-Feld setzen
         task.subtasks.set(subtask)
-        serialized_obj = serializers.serialize('json', [task,])
+        serialized_obj = core_serializers.serialize('json', [task,])
         return HttpResponse(serialized_obj, content_type='application/json')
 
 class SubtaskViewSet(viewsets.ModelViewSet):
@@ -90,7 +98,45 @@ class ContactsViewSet(viewsets.ModelViewSet):
         serializer = ContactSerialzier(contact)
         return HttpResponse(serializer.data, content_type='application/json')
 
+class LoginView(ObtainAuthToken):
+     def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data,
+                                           context={'request': request})
 
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        token, created = Token.objects.get_or_create(user=user)
+        return Response({
+            'token': token.key,
+            'user_id': user.pk,
+            'email': user.email
+        })
+
+@api_view(['POST'])
+def register(request):
+    VALID_USER_FIELDS = [f.name for f in MyUser._meta.fields]
+    DEFAULTS = {
+        # you can define any defaults that you would like for the user here
+    }
+
+    serialized = MyUserSerializer(data=request.data)
+
+    if serialized.is_valid():
+        user_data = {field: data for (field, data) in request.data.items() if field in VALID_USER_FIELDS}
+        user_data.update(DEFAULTS)
+
+        # Hash the password before creating the user
+        password = request.data.get('password')
+        hashed_password = make_password(password)
+        user_data['password'] = hashed_password
+
+        # Create the user with the hashed password
+        user = MyUser(**user_data)
+        user.set_password(password)
+        user.save()
+        return Response(MyUserSerializer(instance=user).data, status=status.HTTP_201_CREATED)
+    else:
+        return Response(serialized.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 
