@@ -36,6 +36,7 @@ class TaskViewSet(viewsets.ModelViewSet):
             description=request.data.get('description', ''),
             due_date=due_date,
             category=request.data.get('category', ''),
+            urgency=request.data.get('urgency', ''),
             status=request.data.get('status', ''),
         )
         task.user.set(users) # Many-to-Many-Feld setzen

@@ -23,22 +23,22 @@ class Subtask(models.Model):
 class Task(models.Model):
 
   CATEGORY_CHOICES = [
-  ('MT','MANAGEMENT'),
-  ('SL', 'SALES'),
-  ('MK','MARKETING'),
-  ('PR','PRODUCT'),
+  ('Management','MANAGEMENT'),
+  ('Sales', 'SALES'),
+  ('Marketing','MARKETING'),
+  ('Product','PRODUCT'),
 ]
   URGENCY_CHOICES = [
-  ('H','HIGH'),
-  ('M', 'MEDIUM'),
-  ('L','LOW'),
+  ('High','HIGH'),
+  ('Mid', 'MEDIUM'),
+  ('Low','LOW'),
 
 ]
   title = models.CharField(max_length=30)
   description = models.CharField(max_length=100)
   due_date = models.DateField(default=datetime.date.today)
-  urgency = models.CharField(max_length=2, choices=URGENCY_CHOICES, default='H')
-  category = models.CharField(max_length=2, choices=CATEGORY_CHOICES, default='MT')
+  urgency = models.CharField(max_length=10, choices=URGENCY_CHOICES, default='High')
+  category = models.CharField(max_length=10, choices=CATEGORY_CHOICES, default='Management')
   status = models.CharField(max_length=15, default='todo')
   user = models.ManyToManyField(
         settings.AUTH_USER_MODEL,

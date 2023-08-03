@@ -9,6 +9,7 @@ class TaskTestCase(APITestCase):
         url = reverse('task-list')
         data = {'title': 'Test task'}
         response = self.client.post(url, data, format='json')
+        
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         task_id = response.json()['id']
         task = Task.objects.get(pk=task_id)
