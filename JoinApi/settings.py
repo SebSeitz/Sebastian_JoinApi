@@ -29,6 +29,7 @@ ALLOWED_HOSTS = [
     'SebastianSeitz36.pythonanywhere.com',
     'localhost',
     '127.0.0.1',
+    'https://sebastian-seitz.developerakademie.com',
 ]
 
 
@@ -143,6 +144,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_METHODS = ['DELETE']
 CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:5505',
+    'https://sebastian-seitz.developerakademie.com',
 ]
 
 
