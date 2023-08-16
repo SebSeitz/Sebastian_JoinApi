@@ -42,7 +42,7 @@ class TaskViewSet(viewsets.ModelViewSet):
         task.user.set(users) # Many-to-Many-Feld setzen
         task.subtasks.set(subtask)
         serialized_obj = core_serializers.serialize('json', [task,])
-        return HttpResponse(serialized_obj, content_type='application/json')
+        return HttpResponse(serialized_obj, content_type='application/json', status=status.HTTP_201_CREATED)
 
 class SubtaskViewSet(viewsets.ModelViewSet):
     """
@@ -65,7 +65,7 @@ class SubtaskViewSet(viewsets.ModelViewSet):
         task.subtasks.add(subtask)
         task.save()
         serializer = SubtaskSerializer(subtask)
-        return HttpResponse(serializer.data, content_type='application/json')
+        return HttpResponse(serializer.data, content_type='application/json', status=status.HTTP_201_CREATED)
 
 
 class UserViewSet(viewsets.ModelViewSet):
